@@ -1,0 +1,10 @@
+language: csharp
+dist: xenial
+mono: none
+dotnet: 2.2
+solution: Phf.Net.sln
+
+script: 
+  - dotnet restore
+  - dotnet build --configuration Release
+  - dotnet test tests/Phf.Net.Tests/Phf.Net.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
