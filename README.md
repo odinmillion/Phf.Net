@@ -35,3 +35,4 @@ str5 - 5
 ## Hints
 
  * You can serialize created `PerfectHashFunction` for the future usage
+ * `PhfSettings` has default values for all properties
