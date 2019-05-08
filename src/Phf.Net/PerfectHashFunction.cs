@@ -8,8 +8,6 @@ namespace Phf.Net
 
         public uint Seed { get; set; }
 
-        public uint NumberOfBuckets { get; set; } /* number of elements in g */
-        
         public uint OutputArraySize { get; set; } /* number of elements in perfect hash */
 
         public uint[] DisplacementMap { get; set; } /* displacement map indexed by g(k) % r */
@@ -101,7 +99,6 @@ retry:
             }
             
             phf.Seed = seed;
-            phf.NumberOfBuckets = numberOfBuckets;
             phf.OutputArraySize = outputArraySize;
             phf.DisplacementMap = displacementMap;
             phf.DisplacementMax = displacementMax;
@@ -111,19 +108,19 @@ retry:
 
         public uint Evaluate(string key)
         {
-            return PhfHash(DisplacementMap, key, Seed, NumberOfBuckets, OutputArraySize, NoDivision);
+            return PhfHash(DisplacementMap, key, Seed, OutputArraySize, NoDivision);
         }
 
-        private static uint PhfHash(uint[] g, string k, uint seed, uint r, uint m, bool noDivision)
+        private static uint PhfHash(uint[] g, string k, uint seed, uint m, bool noDivision)
         {
             if (noDivision)
             {
-                uint d = g[Phf_g(k, seed) & (r - 1)];
+                uint d = g[Phf_g(k, seed) & (g.Length - 1)];
                 return Phf_f(d, k, seed) & (m - 1);
             }
             else
             {
-                uint d = g[Phf_g(k, seed) % r];
+                uint d = g[Phf_g(k, seed) % g.Length];
                 return Phf_f(d, k, seed) % m;
             }
         }
